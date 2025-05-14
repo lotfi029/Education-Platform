@@ -1,1 +1,35 @@
-<app-register></app-register>
+<div class="min-h-screen flex flex-col bg-gray-50">
+  <!-- Header -->
+  @if (authService.isAuthenticated()) {
+    <header class="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <app-navbar/>
+      </div>
+    </header>
+  }
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <!-- Auth Pages Container -->
+    @if (!authService.isAuthenticated()) {
+      <div class="min-h-[calc(100vh-4rem)]">
+        <router-outlet/>
+      </div>
+    }
+    <!-- Authenticated Pages Container -->
+    @else {
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+          <router-outlet/>
+        </div>
+      </div>
+    }
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 mt-auto">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <app-footer/>
+    </div>
+  </footer>
+</div>

@@ -1,3 +1,35 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
+import { authGuard } from './guards/auth.guard';
+import { nonAuthGuard } from './guards/non-auth.guard';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { 
+    path: 'login', 
+    component: LoginComponent,
+    canActivate: [nonAuthGuard]
+  },
+  { 
+    path: 'register', 
+    component: RegisterComponent,
+    canActivate: [nonAuthGuard]
+  },
+  { 
+    path: 'forgot-password', 
+    component: ForgotPasswordComponent,
+    canActivate: [nonAuthGuard]
+  },
+  { 
+    path: 'reset-password', 
+    component: ResetPasswordComponent,
+    canActivate: [nonAuthGuard]
+  },
+  { 
+    path: '', 
+    redirectTo: '/login', 
+    pathMatch: 'full' 
+  }
+];

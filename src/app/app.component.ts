@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { RegisterComponent } from "./components/register/register.component";
-import { HttpClientModule } from '@angular/common/http';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RegisterComponent, HttpClientModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, CommonModule],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'Store';
+  constructor(public authService: AuthService) {}
 }

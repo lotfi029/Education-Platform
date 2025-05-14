@@ -17,9 +17,16 @@ export class Result {
 
 export class TResult<T> extends Result {
 
-    constructor(isSucceed: boolean, error: MyError, public data?: T) {
+    constructor(isSucceed: boolean, error: MyError, private _data?: T) {
         super(isSucceed, error);
 
+    }
+
+    public get data() : T {
+        if (!this.isSucceed) {
+            throw new Error('Data is not available');
+        }
+        return this._data as T;
     }
 
     public static override success<T>(data?: T) : TResult<T> {

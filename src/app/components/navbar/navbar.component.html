@@ -1,0 +1,150 @@
+<!-- Main Navbar -->
+<nav class="fixed top-0 left-0 right-0 bg-white shadow-md transition-transform duration-300 z-50" [class.-translate-y-full]="isScrolled">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Brand -->
+      <a class="text-2xl font-bold text-primary" href="#">
+        <span>Store</span>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="flex-1 max-w-2xl mx-8">
+        <div class="flex">
+          <select class="bg-gray-50 border border-r-0 border-gray-300 text-gray-900 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option selected>All Categories</option>
+            <option>Electronics</option>
+            <option>Books</option>
+            <option>Fashion</option>
+            <option>Home & Kitchen</option>
+            <option>Beauty</option>
+            <option>Sports</option>
+            <option>Toys</option>
+            <option>Grocery</option>
+          </select>
+          <input type="text" class="flex-1 border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search for products, brands and more...">
+          <button class="bg-primary text-white px-6 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
+            <i class="bi bi-search"></i>
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Items -->
+      <div class="flex items-center space-x-6">
+        <!-- Language Selector -->
+        <div class="relative group">
+          <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
+            <i class="bi bi-globe"></i>
+            <span>EN</span>
+          </button>
+          <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <i class="bi bi-check2"></i>
+              English
+            </a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <span class="mr-2">🇪🇸</span>
+              Español
+            </a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <span class="mr-2">🇫🇷</span>
+              Français
+            </a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <span class="mr-2">🇩🇪</span>
+              Deutsch
+            </a>
+          </div>
+        </div>
+
+        <!-- Orders -->
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
+          <i class="bi bi-box-seam"></i>
+          <span>Orders</span>
+        </a>
+
+        <!-- Account Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
+            <i class="bi bi-person-circle"></i>
+            <span>Account</span>
+          </button>
+          <div class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
+            <div class="px-4 py-2 border-b">
+              <h6 class="font-semibold">Welcome</h6>
+              <p class="text-sm text-gray-600">Sign in to your account</p>
+            </div>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <i class="bi bi-box-arrow-in-right mr-2"></i>
+              Sign In
+            </a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <i class="bi bi-person-plus mr-2"></i>
+              Register
+            </a>
+            <div class="border-t my-2"></div>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <i class="bi bi-gear mr-2"></i>
+              Your Account
+            </a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <i class="bi bi-list-check mr-2"></i>
+              Your Orders
+            </a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+              <i class="bi bi-heart mr-2"></i>
+              Your Wishlist
+            </a>
+          </div>
+        </div>
+
+        <!-- Cart -->
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary relative" href="#">
+          <span class="relative">
+            <i class="bi bi-cart3 text-xl"></i>
+            <span *ngIf="cartItemCount > 0" class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {{cartItemCount}}
+            </span>
+          </span>
+          <span>Cart</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Secondary Navbar -->
+<nav class="fixed top-16 left-0 right-0 bg-gray-50 border-b transition-transform duration-300 z-40" [class.-translate-y-full]="isScrolled">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center h-12">
+      <button class="lg:hidden p-2 rounded-md hover:bg-gray-200">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="hidden lg:flex space-x-8">
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
+          <i class="bi bi-grid"></i>
+          <span>All Categories</span>
+        </a>
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
+          <i class="bi bi-lightning"></i>
+          <span>Today's Deals</span>
+        </a>
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
+          <i class="bi bi-gift"></i>
+          <span>New Releases</span>
+        </a>
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
+          <i class="bi bi-star"></i>
+          <span>Best Sellers</span>
+        </a>
+        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
+          <i class="bi bi-tag"></i>
+          <span>Special Offers</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Spacer to prevent content from hiding under fixed navbar -->
+<div class="h-28"></div>

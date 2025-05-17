@@ -5,8 +5,14 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { authGuard } from './guards/auth.guard';
 import { nonAuthGuard } from './guards/non-auth.guard';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
+  { 
+    path: '', 
+    redirectTo: 'profile', 
+    pathMatch: 'full' 
+  },
   { 
     path: 'login', 
     component: LoginComponent,
@@ -27,9 +33,9 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
     canActivate: [nonAuthGuard]
   },
-  { 
-    path: '', 
-    redirectTo: '/login', 
-    pathMatch: 'full' 
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [authGuard]
   }
 ];

@@ -2,38 +2,40 @@ import { HttpStatusCode } from "@angular/common/http";
 
 
 export class MyError {
-    constructor(description?: string, status?: number) {
-        this.description = description;
+    constructor(public descriptions?: string[], status?: number) {
+        this.descriptions = descriptions ?? [];
         this.status = status;
     }
-    description?: string;
+    // descriptions: string[];
+    
+    // description?: string;
     status?: number;
 
     public static non : MyError = new MyError(undefined, undefined);
 
 
-    public static BadRequest(description?: string) : MyError {
-        return new MyError(description, HttpStatusCode.BadRequest);
+    public static BadRequest(descriptions?: string[]) : MyError {
+        return new MyError(descriptions, HttpStatusCode.BadRequest);
     }
 
-    public static Unauthorized(description?: string) : MyError {
-        return new MyError(description, HttpStatusCode.Unauthorized);
+    public static Unauthorized(descriptions?: string[]) : MyError {
+        return new MyError(descriptions, HttpStatusCode.Unauthorized);
     }
 
-    public static Forbidden(description?: string) : MyError {
-        return new MyError(description, HttpStatusCode.Forbidden);
+    public static Forbidden(descriptions?: string[]) : MyError {
+        return new MyError(descriptions, HttpStatusCode.Forbidden);
     }
 
-    public static NotFound(description?: string) : MyError {
-        return new MyError(description, HttpStatusCode.NotFound);
+    public static NotFound(descriptions?: string[]) : MyError {
+        return new MyError(descriptions, HttpStatusCode.NotFound);
     }
 
-    public static Conflict(description?: string) : MyError {
-        return new MyError(description, HttpStatusCode.Conflict);
+    public static Conflict(descriptions?: string[]) : MyError {
+        return new MyError(descriptions, HttpStatusCode.Conflict);
     }
 
-    public static InternalServerError(description?: string) : MyError {
-        return new MyError(description, HttpStatusCode.InternalServerError);
+    public static InternalServerError(descriptions?: string[]) : MyError {
+        return new MyError(descriptions, HttpStatusCode.InternalServerError);
     }
 }
   

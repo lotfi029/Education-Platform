@@ -17,7 +17,9 @@ export class ResetPasswordComponent implements OnInit {
   showPassword = false;
   isSubmitted = false;
   isSuccess = false;
-  token: string = '';
+  userId: string = '';
+  code: string = '';
+  email: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -34,8 +36,11 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.token = this.route.snapshot.queryParams['token'];
-    if (!this.token) {
+    this.userId = this.route.snapshot.queryParams['userId'];
+    this.code = this.route.snapshot.queryParams['code'];
+    this.email = this.route.snapshot.queryParams['email'];
+
+    if (!this.userId || !this.code || !this.email) {
       this.router.navigate(['/login']);
     }
   }
@@ -49,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
       this.isSubmitted = true;
       const { password } = this.resetPasswordForm.value;
       
-      this.authService.resetPassword(this.token, password).subscribe({
+      this.authService.resetPassword(this.userId, this.code, password).subscribe({
         next: () => {
           this.isSuccess = true;
         },

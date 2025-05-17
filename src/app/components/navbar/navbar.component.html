@@ -1,150 +1,241 @@
 <!-- Main Navbar -->
-<nav class="fixed top-0 left-0 right-0 bg-white shadow-md transition-transform duration-300 z-50" [class.-translate-y-full]="isScrolled">
-  <div class="container mx-auto px-4">
+<nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-sm z-50 transition-all duration-300" 
+     [class.-translate-y-full]="isScrolled"
+     [class.shadow-lg]="isScrolled">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
-      <!-- Brand -->
-      <a class="text-2xl font-bold text-primary" href="#">
-        <span>Store</span>
-      </a>
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a routerLink="/" class="flex items-center space-x-2 group">
+          <div class="relative">
+            <svg class="h-8 w-8 text-primary transform transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+            <div class="absolute inset-0 bg-primary/10 rounded-full blur-md transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent group-hover:from-primary/90 group-hover:to-primary transition-all duration-300">Store</span>
+        </a>
+      </div>
 
       <!-- Search Bar -->
-      <div class="flex-1 max-w-2xl mx-8">
-        <div class="flex">
-          <select class="bg-gray-50 border border-r-0 border-gray-300 text-gray-900 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-            <option selected>All Categories</option>
-            <option>Electronics</option>
-            <option>Books</option>
-            <option>Fashion</option>
-            <option>Home & Kitchen</option>
-            <option>Beauty</option>
-            <option>Sports</option>
-            <option>Toys</option>
-            <option>Grocery</option>
-          </select>
-          <input type="text" class="flex-1 border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search for products, brands and more...">
-          <button class="bg-primary text-white px-6 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
-            <i class="bi bi-search"></i>
-            Search
-          </button>
+      <div class="hidden md:flex flex-1 max-w-xl mx-8">
+        <div class="relative w-full group">
+          <input type="text" 
+                 class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 group-hover:border-primary/50" 
+                 placeholder="Search products...">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400 group-hover:text-primary transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <button class="p-1 rounded-full hover:bg-gray-100 transition-colors duration-200">
+              <svg class="h-5 w-5 text-gray-400 hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Navigation Items -->
-      <div class="flex items-center space-x-6">
-        <!-- Language Selector -->
-        <div class="relative group">
-          <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
-            <i class="bi bi-globe"></i>
-            <span>EN</span>
-          </button>
-          <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <i class="bi bi-check2"></i>
-              English
-            </a>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <span class="mr-2">🇪🇸</span>
-              Español
-            </a>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <span class="mr-2">🇫🇷</span>
-              Français
-            </a>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <span class="mr-2">🇩🇪</span>
-              Deutsch
-            </a>
-          </div>
-        </div>
+      <div class="flex items-center space-x-2">
+        <!-- Settings Button -->
+        <button (click)="openSettings()" 
+                class="p-2 rounded-full text-gray-600 hover:text-primary hover:bg-gray-100 transition-all duration-300 relative group">
+          <svg class="h-6 w-6 transform transition-transform duration-300 group-hover:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+        </button>
 
-        <!-- Orders -->
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
-          <i class="bi bi-box-seam"></i>
-          <span>Orders</span>
+        <!-- Cart Button -->
+        <a routerLink="/cart" 
+           class="p-2 rounded-full text-gray-600 hover:text-primary hover:bg-gray-100 transition-all duration-300 relative group">
+          <svg class="h-6 w-6 transform transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span *ngIf="cartItemCount > 0" 
+                class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110">
+            {{cartItemCount}}
+          </span>
         </a>
 
-        <!-- Account Dropdown -->
+        <!-- Profile Button -->
         <div class="relative group">
-          <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
-            <i class="bi bi-person-circle"></i>
-            <span>Account</span>
-          </button>
-          <div class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
-            <div class="px-4 py-2 border-b">
-              <h6 class="font-semibold">Welcome</h6>
-              <p class="text-sm text-gray-600">Sign in to your account</p>
+          <a routerLink="/profile" 
+             class="p-1 rounded-full text-gray-600 hover:text-primary hover:bg-gray-100 transition-all duration-300 relative block">
+            <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors duration-300">
+              @if(userProfile?.avatar) {
+                <img  
+                   [src]="userProfile?.avatar" 
+                   [alt]="userProfile?.firstName + ' ' + userProfile?.lastName"
+                   class="w-full h-full object-cover">
+              } @else {
+                <div class="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-medium">
+                  {{initials}}
+                </div>
+              }
             </div>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <i class="bi bi-box-arrow-in-right mr-2"></i>
-              Sign In
+          </a>
+          <!-- Profile Dropdown -->
+          <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block transform origin-top-right transition-all duration-200">
+            <div class="px-4 py-2 border-b">
+              <p class="text-sm font-medium text-gray-900">{{userProfile?.firstName}} {{userProfile?.lastName}}</p>
+              <p class="text-xs text-gray-500">{{userProfile?.email}}</p>
+            </div>
+            <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              Your Profile
             </a>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <i class="bi bi-person-plus mr-2"></i>
-              Register
-            </a>
-            <div class="border-t my-2"></div>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <i class="bi bi-gear mr-2"></i>
-              Your Account
-            </a>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <i class="bi bi-list-check mr-2"></i>
+            <a routerLink="/orders" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
               Your Orders
             </a>
-            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
-              <i class="bi bi-heart mr-2"></i>
-              Your Wishlist
+            <a routerLink="/wishlist" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              Wishlist
             </a>
+            <div class="border-t my-1"></div>
+            <button (click)="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+              Sign Out
+            </button>
           </div>
         </div>
-
-        <!-- Cart -->
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary relative" href="#">
-          <span class="relative">
-            <i class="bi bi-cart3 text-xl"></i>
-            <span *ngIf="cartItemCount > 0" class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              {{cartItemCount}}
-            </span>
-          </span>
-          <span>Cart</span>
-        </a>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- Secondary Navbar -->
-<nav class="fixed top-16 left-0 right-0 bg-gray-50 border-b transition-transform duration-300 z-40" [class.-translate-y-full]="isScrolled">
-  <div class="container mx-auto px-4">
-    <div class="flex items-center h-12">
-      <button class="lg:hidden p-2 rounded-md hover:bg-gray-200">
-        <i class="bi bi-list"></i>
-      </button>
-      <div class="hidden lg:flex space-x-8">
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
-          <i class="bi bi-grid"></i>
-          <span>All Categories</span>
+<!-- Categories Navbar -->
+<nav class="fixed top-16 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-gray-100 z-40 transition-all duration-300"
+     [class.-translate-y-full]="isScrolled">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-12">
+      <!-- Main Categories -->
+      <div class="flex items-center space-x-8">
+        <a routerLink="/categories/electronics" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center space-x-1 group">
+          <svg class="h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span>Electronics</span>
         </a>
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
-          <i class="bi bi-lightning"></i>
-          <span>Today's Deals</span>
+        <a routerLink="/categories/fashion" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center space-x-1 group">
+          <svg class="h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span>Fashion</span>
         </a>
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
-          <i class="bi bi-gift"></i>
-          <span>New Releases</span>
+        <a routerLink="/categories/home" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center space-x-1 group">
+          <svg class="h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span>Home</span>
         </a>
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
-          <i class="bi bi-star"></i>
-          <span>Best Sellers</span>
+        <a routerLink="/categories/beauty" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center space-x-1 group">
+          <svg class="h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          <span>Beauty</span>
         </a>
-        <a class="flex items-center space-x-1 text-gray-700 hover:text-primary" href="#">
-          <i class="bi bi-tag"></i>
-          <span>Special Offers</span>
+        <a routerLink="/categories/sports" class="text-gray-600 hover:text-primary transition-colors duration-300 flex items-center space-x-1 group">
+          <svg class="h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          <span>Sports</span>
         </a>
+      </div>
+
+      <!-- More Categories Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center space-x-1 text-gray-600 hover:text-primary transition-colors duration-300">
+          <span>More Categories</span>
+          <svg class="h-5 w-5 transform transition-transform duration-300 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block transform origin-top-right transition-all duration-200">
+          <a routerLink="/categories/books" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Books & Stationery
+          </a>
+          <a routerLink="/categories/toys" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Toys & Games
+          </a>
+          <a routerLink="/categories/automotive" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Automotive
+          </a>
+          <a routerLink="/categories/garden" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Garden & Outdoor
+          </a>
+          <a routerLink="/categories/pets" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Pet Supplies
+          </a>
+          <a routerLink="/categories/health" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Health & Wellness
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- Mobile Search Bar (visible only on small screens) -->
+<div class="md:hidden fixed top-16 left-0 right-0 bg-white/80 backdrop-blur-md px-4 py-2 shadow-sm z-40 transition-all duration-300"
+     [class.-translate-y-full]="isScrolled">
+  <div class="relative group">
+    <input type="text" 
+           class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 group-hover:border-primary/50" 
+           placeholder="Search products...">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <svg class="h-5 w-5 text-gray-400 group-hover:text-primary transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Categories (visible only on small screens) -->
+<div class="md:hidden fixed top-28 left-0 right-0 bg-white/80 backdrop-blur-md px-4 py-2 shadow-sm z-40 overflow-x-auto">
+  <div class="flex space-x-4">
+    <a routerLink="/categories/electronics" class="flex items-center space-x-1 text-gray-600 hover:text-primary whitespace-nowrap">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      <span>Electronics</span>
+    </a>
+    <a routerLink="/categories/fashion" class="flex items-center space-x-1 text-gray-600 hover:text-primary whitespace-nowrap">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      </svg>
+      <span>Fashion</span>
+    </a>
+    <a routerLink="/categories/home" class="flex items-center space-x-1 text-gray-600 hover:text-primary whitespace-nowrap">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+      <span>Home</span>
+    </a>
+    <a routerLink="/categories/beauty" class="flex items-center space-x-1 text-gray-600 hover:text-primary whitespace-nowrap">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+      <span>Beauty</span>
+    </a>
+    <a routerLink="/categories/sports" class="flex items-center space-x-1 text-gray-600 hover:text-primary whitespace-nowrap">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      <span>Sports</span>
+    </a>
+  </div>
+</div>
 
 <!-- Spacer to prevent content from hiding under fixed navbar -->
 <div class="h-28"></div>
+
+<!-- Mobile Menu Button (visible only on small screens) -->
+<div class="md:hidden fixed bottom-4 right-4 z-50">
+  <button class="p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-110 active:scale-95">
+    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>

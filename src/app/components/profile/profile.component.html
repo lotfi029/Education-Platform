@@ -1,1 +1,297 @@
-<p>profile works!</p>
+<!-- Main Container -->
+<div class="min-h-screen bg-gray-50 py-8 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="flex justify-center items-center min-h-[400px]">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    }
+
+    <!-- Success Message -->
+    @if (showSuccessMessage) {
+      <div class="fixed top-4 right-4 z-50 animate-slide-in">
+        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg shadow-lg">
+          <div class="flex items-center">
+            <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <p class="text-sm text-green-700">{{ successMessage }}</p>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Error Message -->
+    @if (errorMessage) {
+      <div class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 animate-fade-in">
+        <div class="flex items-center">
+          <svg class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-sm text-red-600">{{ errorMessage }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Profile Content -->
+    @if (userProfile && !isLoading) {
+      <div class="space-y-6">
+        <!-- Profile Header Card -->
+        <div class="bg-white shadow-lg rounded-2xl overflow-hidden transform transition-all duration-300 hover:shadow-xl">
+          <div class="relative h-40 bg-gradient-to-r from-primary to-primary/80">
+            <div class="absolute -bottom-16 left-8">
+              <div class="relative group">
+                <div class="h-32 w-32 rounded-full bg-white p-1 shadow-lg">
+                  <div class="h-full w-full rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center overflow-hidden">
+                    @if (userProfile.avatar) {
+                      <img [src]="userProfile.avatar" [alt]="fullName" class="h-full w-full object-cover">
+                    } @else {
+                      <span class="text-4xl font-bold text-primary">{{ initials }}</span>
+                    }
+                  </div>
+                </div>
+                @if (isEditing) {
+                  <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <label class="cursor-pointer p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors duration-200">
+                      <input type="file" class="hidden" accept="image/*" (change)="onFileSelected($event)">
+                      <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </label>
+                  </div>
+                }
+                @if (isUploadingAvatar) {
+                  <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="pt-20 pb-6 px-8">
+            <div class="flex justify-between items-start">
+              <div>
+                <h1 class="text-2xl font-bold text-gray-900">{{ fullName }}</h1>
+                <p class="text-gray-600">{{ userProfile.email }}</p>
+                @if (userProfile.bio) {
+                  <p class="mt-2 text-sm text-gray-500">{{ userProfile.bio }}</p>
+                }
+              </div>
+              <div class="flex space-x-3">
+                @if (isEditing) {
+                  <button (click)="onSubmit()" 
+                          [disabled]="!profileForm.valid"
+                          class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Save Changes
+                  </button>
+                }
+                <button (click)="toggleEdit()" 
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200">
+                  {{ isEditing ? 'Cancel' : 'Edit Profile' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="bg-white shadow rounded-2xl overflow-hidden">
+          <nav class="flex border-b border-gray-100 overflow-x-auto">
+            <button (click)="setActiveTab('personal')"
+                    [class.border-primary]="activeTab === 'personal'"
+                    [class.text-primary]="activeTab === 'personal'"
+                    class="px-6 py-4 text-sm font-medium border-b-2 border-transparent hover:text-primary hover:border-primary/50 transition-colors duration-200 whitespace-nowrap">
+              Personal Information
+            </button>
+            <button (click)="setActiveTab('security')"
+                    [class.border-primary]="activeTab === 'security'"
+                    [class.text-primary]="activeTab === 'security'"
+                    class="px-6 py-4 text-sm font-medium border-b-2 border-transparent hover:text-primary hover:border-primary/50 transition-colors duration-200 whitespace-nowrap">
+              Security
+            </button>
+            <button (click)="setActiveTab('preferences')"
+                    [class.border-primary]="activeTab === 'preferences'"
+                    [class.text-primary]="activeTab === 'preferences'"
+                    class="px-6 py-4 text-sm font-medium border-b-2 border-transparent hover:text-primary hover:border-primary/50 transition-colors duration-200 whitespace-nowrap">
+              Preferences
+            </button>
+          </nav>
+
+          <!-- Tab Content -->
+          <div class="p-6">
+            @if (activeTab === 'personal') {
+              <div class="space-y-6">
+                <form [formGroup]="profileForm" class="space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text" formControlName="firstName"
+                               [class.border-red-300]="formControls['firstName'].invalid && formControls['firstName'].touched"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                        @if (formControls['firstName'].invalid && formControls['firstName'].touched) {
+                          <p class="mt-1 text-sm text-red-600">First name is required and must be at least 2 characters</p>
+                        }
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text" formControlName="lastName"
+                               [class.border-red-300]="formControls['lastName'].invalid && formControls['lastName'].touched"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                        @if (formControls['lastName'].invalid && formControls['lastName'].touched) {
+                          <p class="mt-1 text-sm text-red-600">Last name is required and must be at least 2 characters</p>
+                        }
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" formControlName="email"
+                               [class.border-red-300]="formControls['email'].invalid && formControls['email'].touched"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                        @if (formControls['email'].invalid && formControls['email'].touched) {
+                          <p class="mt-1 text-sm text-red-600">Please enter a valid email address</p>
+                        }
+                      </div>
+                    </div>
+                    <div class="space-y-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" formControlName="phoneNumber"
+                               [class.border-red-300]="formControls['phoneNumber'].invalid && formControls['phoneNumber'].touched"
+                               class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                        @if (formControls['phoneNumber'].invalid && formControls['phoneNumber'].touched) {
+                          <p class="mt-1 text-sm text-red-600">Please enter a valid phone number</p>
+                        }
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">Address</label>
+                        <textarea formControlName="address" rows="3"
+                                  class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"></textarea>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">Bio</label>
+                        <textarea formControlName="bio" rows="3"
+                                  [class.border-red-300]="formControls['bio'].invalid && formControls['bio'].touched"
+                                  class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"></textarea>
+                        @if (formControls['bio'].invalid && formControls['bio'].touched) {
+                          <p class="mt-1 text-sm text-red-600">Bio must be less than 500 characters</p>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            }
+
+            @if (activeTab === 'security') {
+              <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">Account Security</h3>
+                  <div class="space-y-3">
+                    <p class="text-sm">
+                      <span class="font-medium text-gray-700">Last Login:</span>
+                      <span class="text-gray-600 ml-2">{{ formattedLastLogin }}</span>
+                    </p>
+                    <p class="text-sm">
+                      <span class="font-medium text-gray-700">Member Since:</span>
+                      <span class="text-gray-600 ml-2">{{ formattedCreatedAt }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">Change Password</h3>
+                  <form class="space-y-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Current Password</label>
+                      <input type="password" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">New Password</label>
+                      <input type="password" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                      <input type="password" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                    </div>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200">
+                      Update Password
+                    </button>
+                  </form>
+                </div>
+              </div>
+            }
+            @if (activeTab === 'preferences') {
+              <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                  <h3 class="text-lg font-medium text-gray-900 mb-4">Notification Preferences</h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-700">Email Notifications</h4>
+                        <p class="text-sm text-gray-500">Receive email updates about your account</p>
+                      </div>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-700">Push Notifications</h4>
+                        <p class="text-sm text-gray-500">Receive push notifications on your device</p>
+                      </div>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Settings Overlay -->
+<app-settings-overlay [isOpen]="isSettingsOpen" (close)="closeSettings()"></app-settings-overlay>
+
+<!-- Add these styles to your global styles or component styles -->
+<style>
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>

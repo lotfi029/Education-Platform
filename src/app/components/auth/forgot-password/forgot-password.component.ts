@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthLayoutComponent } from '../auth-layout.component';
 import { AuthService } from '../../../services/auth.service';
+
+interface ForgotPasswordResponse {
+  userId: string;
+  code: string;
+}
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +23,8 @@ export class ForgotPasswordComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
@@ -31,8 +37,14 @@ export class ForgotPasswordComponent {
       const { email } = this.forgotPasswordForm.value;
       
       this.authService.forgotPassword(email).subscribe({
-        next: () => {
-          this.isSuccess = true;
+        next: (response: ForgotPasswordResponse) => {
+          this.router.navigate(['/reset-password'], {
+            queryParams: {
+              userId: response.userId,
+              code: response.code,
+              email: email
+            }
+          });
         },
         error: (error) => {
           console.error('Password reset request failed:', error);

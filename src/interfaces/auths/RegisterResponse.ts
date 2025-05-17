@@ -1,4 +1,4 @@
-export interface RegisterResponse {
+export interface ConfirmEmailRequest {
     code: string;
     userId: string;
 }

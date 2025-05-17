@@ -10,5 +10,5 @@ export const nonAuthGuard = () => {
     return true;
   }
 
-  return router.parseUrl('/home');
+  return router.parseUrl('/profile');
 }; 

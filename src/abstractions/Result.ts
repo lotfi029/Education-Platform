@@ -7,11 +7,28 @@ export class Result {
         }
     }
 
-    public static success() : Result {
+    protected static createSuccess(): Result {
         return new Result(true, MyError.non);
     }
-    public static fail(error: MyError) : Result {
+
+    protected static createFailure(error: MyError): Result {
         return new Result(false, error);
+    }
+
+    public static success(): Result {
+        return Result.createSuccess();
+    }
+
+    public static fail(error: MyError): Result {
+        return Result.createFailure(error);
+    }
+
+    public isSuccess(): this is Result {
+        return this.isSucceed;
+    }
+
+    public isFailure(): this is Result {
+        return !this.isSucceed;
     }
 }
 
@@ -19,7 +36,6 @@ export class TResult<T> extends Result {
 
     constructor(isSucceed: boolean, error: MyError, private _data?: T) {
         super(isSucceed, error);
-
     }
 
     public get data() : T {
@@ -36,6 +52,8 @@ export class TResult<T> extends Result {
     public static override fail<T>(error: MyError) : TResult<T> {
         return new TResult<T>(false, error, undefined);
     }
+    // map, flatMap, match, getOrElse, getOrThrow 
+    
 }
   
   
